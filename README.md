@@ -1,52 +1,68 @@
-# Router_1X3
+📌 Project Overview
 
-## 📌 Project Overview
+The Router 1x3 manages data packets through a modular architecture consisting of multiple submodules such as FIFO Buffers, Register, FSM Controller, and Synchronizer.
+It ensures smooth data transfer, reliable flow control, and high-speed communication without packet loss or corruption.
 
-This project implements a **1x3 Router** in Verilog designed for packet-based data communication. The router receives data packets at a single input port, identifies the destination address from the packet, and forwards the packet to one of three output ports. The router architecture uses multiple submodules to ensure efficient, reliable, and synchronized data handling.
+The router also includes parity checking for error detection and a finite state machine (FSM) for controlling data flow and timing across the design.
 
-The Router 1x3 handles data packets by reading the input stream, decoding the destination address, buffering the packets in FIFOs associated with each output port, and forwarding the packets when the downstream modules are ready. It uses parity checking for error detection and a finite state machine (FSM) to control the packet processing flow.
+🧩 Submodule Descriptions
+1️⃣ FIFO Buffers (fifo0, fifo1, fifo2)
+
+Each output port has a dedicated FIFO buffer to store packets temporarily before transmission.
+
+Purpose: Prevent data loss and manage flow control during varying data rates.
+
+Operation:
+
+Write to FIFO when valid data arrives.
+
+Read from FIFO when the output port is ready.
+
+Capacity: 8 packets (Depth = 8).
+
+2️⃣ Register
+
+Purpose: Holds the currently received packet for address decoding and parity check.
+
+Operation: Loads valid packets from the input and enables decoding by the FSM.
+
+3️⃣ Finite State Machine (FSM) Controller
+
+Purpose: Controls the router’s operation across states — idle, receiving, decoding, FIFO write, and output wait.
+
+Operation: Transitions depend on input validity, FIFO status, and control signals.
+
+Benefit: Ensures ordered and reliable packet processing.
+
+4️⃣ Synchronizer
+
+Purpose: Synchronizes asynchronous signals from external domains to the router’s internal clock.
+
+Operation: Uses flip-flops to stabilize asynchronous transitions, preventing metastability.
+
+⚙️ Additional Features
+
+Parity Checker: Detects corrupted packets and flags errors before forwarding.
+
+Signal-Based Flow Control: Uses write and read enable signals for reliable data transfer between modules.
+
+Soft Reset Mechanism: Automatically triggers reset when output data remains unread for a defined number of cycles.
+
+🛠️ Tools Used
+
+Xilinx Vivado – RTL design and simulation
+
+QuestaSim / ModelSim – Functional simulation and waveform analysis
+
+EDA Playground – Rapid design validation and testbench testing
 
 
-## Submodule Descriptions
+💡 Learning Outcome
 
-### 1. FIFO Buffers (fifo0, fifo1, fifo2)
+This project strengthened understanding of packet-based router architecture, data synchronization, and finite state machine control.
+It demonstrates how FIFO buffering, error checking, and flow control work together in digital communication systems to ensure high performance and data integrity.
 
-Each output port has its own FIFO buffer to temporarily store packets before transmission. These buffers manage data rate mismatches between input and output ports, prevent data loss during high traffic, and enable smooth flow control.
+📍 Author: Muttu B Naik
+📧 Email: muttunaik5096@gmail.com
 
-* **Purpose:** Temporarily store valid data packets addressed to their respective ports.
-* **Operation:** Packets are written into the FIFO when they arrive and are validated. Packets are read out when the corresponding output port signals readiness.
-* **Size:** Each FIFO has a capacity of 8 packets (depth 8).
-
-### 2. Register
-
-The Register module stores the currently received packet during the decoding phase.
-
-* **Purpose:** Holds the incoming packet data temporarily for processing and address decoding.
-* **Operation:** Loads packet data on the input when the packet is valid, enabling the FSM and other logic to inspect packet fields.
-
-### 3. Finite State Machine (FSM) Controller
-
-The FSM governs the entire packet processing flow, coordinating between data input, address decoding, FIFO writing, and output signaling.
-
-* **Purpose:** Controls the router’s behavior in different states such as idle, receiving, decoding, writing to FIFO, and waiting for output read.
-* **Operation:** Transitions between states based on input signals, packet validity, and FIFO status signals.
-* **Benefits:** Ensures orderly processing and prevents data loss or corruption.
-
-### 4. Synchronizer
-
-The Synchronizer handles the timing coordination between asynchronous signals from different clock domains or external modules.
-
-* **Purpose:** Eliminates metastability issues by synchronizing incoming asynchronous signals to the router’s clock domain.
-* **Operation:** Uses flip-flops to stabilize signals, ensuring reliable signal transitions within the router.
-
-
-## Additional Features
-
-* **Parity Checker:** The router includes a parity check mechanism to detect errors in incoming packets. Packets failing the parity check are discarded, ensuring only valid data is forwarded.
-* **Signal-based Flow Control:** Write and read enable signals control packet data transfer into and out of FIFOs, ensuring data integrity and proper timing.
-
-
-## Summary
-
-This 1x3 Router design integrates FIFO buffers, registers, FSM control, and synchronization mechanisms to provide a robust packet routing system. The modular design makes it easy to scale or adapt for larger router architectures. This project is an excellent example of combining finite state machines with data buffering and synchronization techniques for digital communication hardware design.
-
+🔗 LinkedIn: https://www.linkedin.com/in/muttunaik5096
